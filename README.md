@@ -25,4 +25,4 @@ There are few things you need to configure before running this bot.
 
  - Run the bot `python bot.py`
 
-Written on Python3.
+Written in Python3.
