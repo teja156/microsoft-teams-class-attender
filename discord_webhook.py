@@ -21,6 +21,7 @@ def send_msg(class_name,status,start_time,end_time):
       # Appends a field
       webhook.add_field(name='Class', value=class_name)
       webhook.add_field(name='Status', value=status)
+      webhook.add_field(name='Lecture Length', value=int(end_time-start_time))
       webhook.add_field(name='Joined at', value=start_time)
       webhook.add_field(name='Leaving at', value=end_time)
 
@@ -31,6 +32,7 @@ def send_msg(class_name,status,start_time,end_time):
       # Appends a field
       webhook.add_field(name='Class', value=class_name)
       webhook.add_field(name='Status', value=status)
+      webhook.add_field(name='Lecture Length', value=int(end_time-start_time))
       webhook.add_field(name='Joined at', value=start_time)
       webhook.add_field(name='Left at', value=end_time)
 
@@ -42,6 +44,7 @@ def send_msg(class_name,status,start_time,end_time):
       # Appends a field
       webhook.add_field(name='Class', value=class_name)
       webhook.add_field(name='Status', value=status)
+      webhook.add_field(name='Lecture Length', value=int(end_time-start_time))
       webhook.add_field(name='Expected Join time', value=status)
       webhook.add_field(name='Expected Leave time', value=end_time)
 
