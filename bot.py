@@ -24,7 +24,7 @@ opt.add_experimental_option("prefs", { \
     "profile.default_content_setting_values.media_stream_camera": 1,
     "profile.default_content_setting_values.geolocation": 1, 
     "profile.default_content_setting_values.notifications": 1 
-  })
+	})
 
 # driver = webdriver.Chrome(chrome_options=opt,service_log_path='NUL')
 driver = None
@@ -58,7 +58,7 @@ def createDB():
 	conn = sqlite3.connect('timetable.db')
 	c=conn.cursor()
 	# Create table
-	c.execute('''CREATE TABLE timetable(class text, start_time text, end_time text, day text)''')
+	c.execute('''CREATE TABLE IF NOT EXISTS timetable (class text, start_time text, end_time text, day text)''')
 	conn.commit()
 	conn.close()
 	print("Created timetable Database")
@@ -80,8 +80,6 @@ def validate_day(inp):
 
 
 def add_timetable():
-	if(not(path.exists("timetable.db"))):
-			createDB()
 	op = int(input("1. Add class\n2. Done adding\nEnter option : "))
 	while(op==1):
 		name = input("Enter class name : ")
@@ -259,6 +257,7 @@ def sched():
 
 if __name__=="__main__":
 	# joinclass("Maths","15:13","15:15","sunday")
+	createDB()
 	op = int(input(("1. Modify Timetable\n2. View Timetable\n3. Start Bot\nEnter option : ")))
 	
 	if(op==1):
