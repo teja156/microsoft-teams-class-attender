@@ -121,6 +121,60 @@ def view_timetable():
 	conn.close()
 
 
+def update_timetable():
+	class_name = input("Enter the class name you want to update: ")
+	conn = sqlite3.connect('timetable.db')
+	c = conn.cursor()
+	c.execute("SELECT * FROM timetable WHERE class = :class", {"class":class_name})
+	results = c.fetchall()
+	
+	if len(results) == 0:
+		print(f"Found no such class named {class_name}!")
+		return None
+
+	while (True):
+		start_time = input("Enter new class start time in 24 hour format: (HH:MM) ")
+		while not(validate_input("\d\d:\d\d",start_time)):
+			print("Invalid input, try again")
+			start_time = input("Enter new class start time in 24 hour format: (HH:MM) ")
+
+		end_time = input("Enter new class end time in 24 hour format: (HH:MM) ")
+		while not(validate_input("\d\d:\d\d",end_time)):
+			print("Invalid input, try again")
+			end_time = input("Enter new class end time in 24 hour format: (HH:MM) ")
+
+		day = input("Enter new day (Monday/Tuesday/Wednesday..etc) : ")
+		while not(validate_day(day.strip())):
+			print("Invalid input, try again")
+			end_time = input("Enter new day (Monday/Tuesday/Wednesday..etc) : ")
+
+
+		c.execute("UPDATE timetable SET start_time = :new_start_time WHERE class = :class", {"new_start_time":start_time, "class":class_name})
+		c.execute("UPDATE timetable SET end_time = :new_end_time WHERE class = :class", {"new_end_time":end_time, "class":class_name})
+		c.execute("UPDATE timetable SET day = :new_day WHERE class = :class", {"new_day":day, "class":class_name})
+		conn.commit()
+		conn.close()
+		print(f"Class {class_name} updated with new start time as {start_time}, new end time as {end_time} and new day as {day} successfully. ")
+		break
+
+
+def delete_timetable():
+	class_name = input("Enter the name of the class you want to delete: ")
+	conn = sqlite3.connect("timetable.db")
+	c = conn.cursor()
+	c.execute("SELECT * FROM timetable WHERE class = :class", {"class":class_name})
+	results = c.fetchall()
+	
+	if len(results) == 0:
+		print(f"Found no such class named {class_name}!")
+		return None
+
+	_ = input(f"Are you sure you want to delete class {class_name}? This action cant be undone. Press any key to continue. ")
+	c.execute("DELETE FROM timetable WHERE class = :class", {"class":class_name})
+	conn.commit()
+	conn.close()
+	print(f"Deleted entry {class_name} from timetable successully. ")
+
 
 def joinclass(class_name,start_time,end_time):
 	global driver
@@ -258,11 +312,22 @@ def sched():
 if __name__=="__main__":
 	# joinclass("Maths","15:13","15:15","sunday")
 	createDB()
-	op = int(input(("1. Modify Timetable\n2. View Timetable\n3. Start Bot\nEnter option : ")))
+	op = int(input(("1. Add Timetable \n2. View Timetable \n3. Update Timetable \n4. Delete timetable \n5. Start Bot\nEnter option : ")))
 	
 	if(op==1):
 		add_timetable()
-	if(op==2):
+
+	elif(op==2):
 		view_timetable()
-	if(op==3):
+
+	elif (op==3):
+		update_timetable()
+
+	elif (op==4):
+		delete_timetable()
+
+	elif(op==5):
 		sched()
+	
+	else:
+		print("Invalid input!")
