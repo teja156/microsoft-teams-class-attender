@@ -31,7 +31,7 @@ driver = None
 URL = "https://teams.microsoft.com"
 
 #put your teams credentials here
-CREDS = {'email' : '','passwd':''}
+CREDS = {'email' : 'stu7592-18@bradonforest.wilts.sch.uk','passwd':'Teddy0412!'}
 
 
 
