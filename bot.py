@@ -5,6 +5,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import time
 import re
+import sys
+import datetime
 import os.path
 from os import path
 import sqlite3
@@ -34,7 +36,7 @@ URL = "https://teams.microsoft.com"
 CREDS = {'email' : '','passwd':''}
 
 
-
+# create def login():
 def login():
 	global driver
 	#login required
@@ -53,7 +55,7 @@ def login():
 	time.sleep(5)
 	# return driver
 
-
+# create def createDB():
 def createDB():
 	conn = sqlite3.connect('timetable.db')
 	c=conn.cursor()
@@ -64,12 +66,13 @@ def createDB():
 	print("Created timetable Database")
 
 
-
+# create validate_input(regex,inp):
 def validate_input(regex,inp):
 	if not re.match(regex,inp):
 		return False
 	return True
 
+# create def validate_day(inp):
 def validate_day(inp):
 	days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
 
@@ -79,6 +82,7 @@ def validate_day(inp):
 		return False
 
 
+# create def add_timetable():
 def add_timetable():
 	if(not(path.exists("timetable.db"))):
 			createDB()
@@ -114,7 +118,7 @@ def add_timetable():
 
 		op = int(input("1. Add class\n2. Done adding\nEnter option : "))
 
-
+# create def view_timetable():
 def view_timetable():
 	conn = sqlite3.connect('timetable.db')
 	c=conn.cursor()
@@ -123,7 +127,7 @@ def view_timetable():
 	conn.close()
 
 
-
+# create def joinclass(class_name,start_time,end_time):
 def joinclass(class_name,start_time,end_time):
 	global driver
 
@@ -200,7 +204,7 @@ def joinclass(class_name,start_time,end_time):
 
 
 
-
+# create start_browser():
 def start_browser():
 
 	global driver
@@ -214,7 +218,7 @@ def start_browser():
 		login()
 
 
-
+# create def sched():
 def sched():
 	conn = sqlite3.connect('timetable.db')
 	c=conn.cursor()
@@ -262,8 +266,8 @@ if __name__=="__main__":
 	op = int(input(("1. Modify Timetable\n2. View Timetable\n3. Start Bot\nEnter option : ")))
 	
 	if(op==1):
-		add_timetable()
+		add_timetable() # exit
 	if(op==2):
-		view_timetable()
+		view_timetable() # exit
 	if(op==3):
-		sched()
+		sched() # exit
