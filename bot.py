@@ -52,6 +52,8 @@ def login():
 	driver.find_element_by_xpath('//*[@id="idSIButton9"]').click() #remember login
 	time.sleep(5)
 	# return driver
+	driver.find_element_by_xpath('//*[@id="download-desktop-page"]/div/a').click()
+	time.sleep(5)
 
 
 def createDB():
